@@ -3,17 +3,17 @@ import numpy as np
 
 
 def main():
-    n = 10
+    n = 100
 
     W = np.zeros((n, n))
     for u in range(n):
         for v in range(u + 1, n):
-            weight = np.random.normal(0, 1)
+            weight = np.random.uniform(0, 1)
             W[u, v] = weight
             W[v, u] = weight
 
     Y = cp.Variable((n, n), symmetric=True)
-    objective = cp.Maximize(0.5 * cp.multiply(W, 1 - Y).sum())
+    objective = cp.Maximize(0.25 * cp.multiply(W, 1 - Y).sum())
     constraints = [Y[u, u] == 1 for u in range(n)] + [Y >> 0]
 
     prob = cp.Problem(objective, constraints)
@@ -24,7 +24,7 @@ def main():
     XT = eigvecs @ np.diag(np.sqrt(eigvals))
 
     # compute cuts & expected cost
-    samples = 1000
+    samples = 10
     costs = []
     for _ in range(samples):
         S = set()
@@ -42,13 +42,13 @@ def main():
                 if u not in S and v in S:
                     cost += W[u, v]
         costs.append(cost)
+    expected_cost = sum(costs) / samples
 
-    print(sum(costs) / samples)
-    print(result / 2 * 0.878)
+    estimated_rank = sum(np.abs(eigvals) > 1e-5)
 
-    # TODO: there may be a bug: the estimated expected cost is not with 0.878 of the solution
-    # NOTE: I think goemans williamson rounding assumes that the weights are non-negative.
-    breakpoint()
+    print(f"estimated rank of vectors: {estimated_rank}")
+    print(f"expected cost: {expected_cost:.3f}")
+    print(f"sdp bound: [{result * 0.878:.3f}, {result:.3f}]")
 
 
 if __name__ == "__main__":

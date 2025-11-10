@@ -49,4 +49,5 @@ Let $\theta_{uv}$ be the angle between $x_u$ and $x_v$. Note that $||x_u - x_v||
     - To show this, consider the component of $t$ within the subspace spanned by $x_u$ and $x_v$.
 - The expected weight of the cut is $\sum_{(u,v) \in E} w_{uv} \theta_{uv} / \pi$
 - The SDP relaxation has cost $\sum_{(u,v) \in E} w_{uv} \cdot \frac{1 - \cos \theta_{uv}}{2}$
+- Assume we have non-negative weights $w_{uv}$
 - For $1/\alpha = \max_\theta \{\frac{1 - \cos\theta}{2} \cdot \frac{\pi}{\theta}\}$, $\alpha \approx 0.878$.
