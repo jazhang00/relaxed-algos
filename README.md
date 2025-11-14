@@ -20,4 +20,5 @@ Visualizing approximation algorithms that make use of relaxation.
 
 **Online algorithms**:
 - Online set cover
+- Online bipartite matching
 - Online weighted paging
